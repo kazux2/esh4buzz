@@ -47,12 +47,13 @@ def detail():
 
 @app.route('/oauth', methods=['GET'])
 def oauth():
+    global session
     # for desk top app, giving callback_url causes an error
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 
     try:
         redirect_url = auth.get_authorization_url()
-        session['request_token'] = (auth.request_token)
+        session['request_token'] = auth.request_token
         return redirect(redirect_url)
 
     except tweepy.TweepError:
@@ -63,7 +64,7 @@ def oauth():
 
 @app.route("/verify")
 def verify():
-
+    global session
     verifier = request.args['oauth_verifier']
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
