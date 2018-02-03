@@ -53,11 +53,12 @@ def oauth():
     try:
         redirect_url = auth.get_authorization_url()
         session['request_token'] = (auth.request_token)
+        return redirect(redirect_url)
 
     except tweepy.TweepError:
         print('Error! Failed to get request token')
 
-    return redirect(redirect_url)
+
 
 
 @app.route("/verify")
