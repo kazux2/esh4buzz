@@ -1,0 +1,13 @@
+.env
+.settings.py
+.idea/*
+/json_data/
+/dictionary/*
+/__pycache__/
+nginx.log
+uwsgi.log
+myapp.ini
+log/*
+!.gitkeep
+settings.py
+_run.py

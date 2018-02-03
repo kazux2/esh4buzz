@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="../static/main.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>ego search helper for (β)uzz</title>
+</head>
+<body>
+    <div>
+        <form action="{{url_for('result')}}" method="post">
+            <h1>ego search helper for (β)uzz</h1>
+            <p>反響を調べたいバズった記事の本文を貼り付けてください。</p>
+            <textarea class="input-form" name="target_text" maxlength="10000" placeholder="解析したい文章を貼り付けてください。"></textarea>
+            <p><input type="submit" id="search" value="解析"></p>
+         </form>
+    </div>
+    <div class="caution-text">
+        <ul class="caution-content-li">
+            <li>ある程度バズっている記事でないと良い結果が得られません。</li>
+            <li>検索結果には近一週間以内のツイートが表示されます。</li>
+            <li>検索対象は1000字程度で、それ以降の文章は無視されます。</li>
+            <li>大量の検索をかけると上限に達することがあります。</li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+    console.log(~10)
+    </script>
+</body>
+</html>

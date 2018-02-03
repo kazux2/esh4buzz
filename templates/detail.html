@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="../static/main.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>ego search helper(β)</title>
+
+</head>
+<body>
+    <div class="title">
+            <h1>ego search helper<br>for (β)uzzとは</h1>
+    </div>
+
+
+    <div class="text-box">
+        <p>記事がバズった！しかし最初は楽しかったエゴサーチも、バズの規模が大きくなるにつれて同じような反応ばかり目にすることによってマンネリ化してきます。ego search helper for Buzzはオンライン記事の執筆者のために、記事に対するよりコアな反響を拾うお手伝いをします。</p>
+    </div>
+    <div class="text-box">
+        <p>一般的にエゴサーチでは、執筆者の名前、記事のタイトル、URLなどで検索をかけます。すると記事に対する直接的な言及（ディレクトリファレンスとでも言いますか）が拾えます。例えば、</p>
+    </div>
+    <div class="tweet-image">
+        <p><img src="{{url_for('static', filename='tweet1.png')}}"></p>
+    </div>
+    <p>こんなツイートや、</p>
+    <div class="tweet-image">
+        <p><img src="{{url_for('static', filename='tweet2.png')}}"></p>
+    </div>
+    <!--<div class="tweet-image"><p><img src="../static/tweet2.png"></p></div>-->
+
+    <p>こんなツイートです。</p>
+
+
+    <div class="text-box">
+        <p>これらのツイートは、記事のメタ情報を含む直接的な言及です。このような反響は、記事全体に対する雑感になりやすく、数が多くても内容が似通ってしまい、執筆者のエゴサーチがマンネリ化してしまいます。</p>
+    </div>
+    <div class="text-box">
+        <p>ではディレクトリファレンスではない反響にはどのようなものがあるでしょうか。</p>
+    </div>
+    <div class="text-box">
+        <div class="tweet-image">
+            <p><img src="{{url_for('static', filename='tweet3.png')}}"></p>
+        </div>
+        <p>1.引用タイプ　このユーザーは、記事の一部を引用して感想を添えてツイートしています。このような、記事の詳細部分に対する反応は、執筆者本人が想定していない個性的な解釈が含まれていることがあり、注目に値するでしょう。</p>
+    </div>
+    <div class="text-box">
+        <div class="tweet-image">
+            <p><img src="{{url_for('static', filename='tweet4.png')}}"></p>
+        </div>
+        <p>2.キーワードタイプ　このユーザーは記事の中のキーワードを使ってツイートしています。独特な言葉遣いをする著者の記事や、広く知られていない概念を紹介している記事などで起きやすく、執筆者と読者の注目すべきインタラクションの一つです。</p>
+    </div>
+    <div class="text-box">
+        <p>3.空リプRTタイプ　別のユーザーのディレクトリファレンスをRTした後に、空リプで感想を述べるタイプもいます。連ツイの形式を取るものも多く、インディレクトリファレンスの代表的な形式の一つです。</p>
+    </div>
+    <div class="text-box">
+        <p>記事がバズると、多くの人目に触れる反面、このような静かな反響が埋れてしまいます。現在ego search helper for Buzzでは、①引用タイプ、②キーワードタイプに効果がありそうな手法を使っています。</p>
+    </div>
+    <div class="text-box">
+        <p>具体的な手法としては、まず、Mecabを用いて記事を形態素解析します。次に、WikipediaとMeCabの単語リストを参照し、記事内の名詞と形容詞・動詞の語幹をリストにします。最後に、句読点間を一単位としてTwitter APIで検索をかけ、結果を表示します。</p>
+    </div>
+    <div class="text-box">
+        <p>現在の検索メソッドは非常にシンプルで、関係ないものも拾えてしまいます。ぜひご自身の記事や最近話題になっている記事で試していただき、改善のためのご意見をください！</p>
+    </div>
+        <p></p>
+
+
+
+    <div class="page-button">
+    <div class="button-additional">
+        <form action="{{url_for('oauth')}}" method="get">
+            <p></p>
+            <p><input type="submit" id="oauth" value="試してみる!"></p>
+         </form>
+    </div>
+    </div>
+
+</body>
+</html>

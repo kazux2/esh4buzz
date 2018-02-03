@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="../static/main.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>ego search helper(β) search result</title>
+</head>
+<body>
+
+    <h1>Searched Tweets</h1>
+
+    <ul>
+        {% for key, value in tweet_list_json.items() if key %}
+            <h3>検索ワード{{ key }}: {{ search_word_json[key]['0'] }}</h3>
+            {% for keyy, valuee in value.items() if valuee %}
+                <p>{{ key }} - {{ keyy }}</p>
+                <div class = "tweet-box">
+                    <div class = "tweet-name">
+                        <li>{{ valuee['u_name'] }}</li>
+                    </div>
+                    <div class = "tweet-text">
+                        <li>{{ valuee['text'] }}</li>
+                    </div>
+                    <div class = "tweet-date">
+                        <li>{{ valuee['date'] }}</li>
+                    </div>
+                    <p></p>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+
+
+</body>
+</html>

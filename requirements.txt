@@ -1,0 +1,11 @@
+Flask==0.12.2
+Flask-Cors==3.0.2
+Flask-RESTful==0.3.6
+Jinja2==2.9.6
+mecab-python3==0.7
+numpy==1.13.3
+oauthlib==2.0.6
+pandas==0.20.1
+twitter==1.18.0
+unicodecsv==0.14.1
+uWSGI==2.0.15

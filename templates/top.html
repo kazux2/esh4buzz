@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="../static/main.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>ego search helper(β)</title>
+
+</head>
+<body>
+    <div class="title">
+         <div class="title-image">
+            <img src="{{ url_for('static', filename = 'pyonpyokoCMYK.jpg') }}" width="150px">
+            <!--<img src="{{url_for('static', filename='pyonpyokoCMYK')}}"-->
+                 <!--width="150px" height="150px">-->
+         </div>
+         <div class="title-text">
+            <h1>ego search helper <br>for (β)uzz</h1>
+         </div>
+    </div>
+
+    <div class="content-text">
+        <p>ego search helper for Buzzは、バズった記事の内容を解析し、反響を自動で検索します。
+            WikipediaとMeCabの単語リストを用いて記事の特徴的な語彙リストを作成し、
+            twitterで検索をかけるツールです。
+            （<a href="{{url_for('detail')}}">詳しい紹介</a>）</p>
+
+        <p>現在の検索メソッドは非常にシンプルで、さらなる洗練が必要です。
+            ぜひご自身の記事や最近話題になっている記事で試していただき、
+            改善のためのご意見をください！</p>
+    </div>
+
+
+    <div class="page-button">
+        <form action="{{url_for('oauth')}}" method="get">
+            <p></p>
+            <p><input type="submit" id="oauth" value="試してみる!"></p>
+         </form>
+    </div>
+    <div class="caution-text">
+        <p>***仕様に関する注意***</p>
+        <ul class="caution-content-li">
+            <li>Twitterアカウントを使ったアプリ認証が必要です。</li>
+            <li>検索結果には近一週間以内のツイートが表示されます。</li>
+            <li>検索対象は1000字程度で、それ以降の文章は無視されます。</li>
+            <li>大量の検索をかけると上限に達することがあります。15分後に再度お越しください。</li>
+        </ul>
+    </div>
+
+</body>
+</html>

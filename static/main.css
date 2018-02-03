@@ -1,0 +1,162 @@
+/*
+.dark-primary-color    { background: #303F9F; }
+.default-primary-color { background: #3F51B5; }
+.light-primary-color   { background: #C5CAE9; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #9E9E9E; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+*/
+
+html, body {
+height: 90%;
+width:70%;
+margin: 5px;
+padding: 5px;
+margin-right: auto;
+margin-left : auto;
+background-color: #FFFFFF;
+font-family: 'Arial',YuGothic,'Yu Gothic','ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ', Meiryo,'ＭＳ ゴシック',sans-serif;
+
+}
+
+@media screen and ( max-width:479px )
+{html, body {
+    height: 100%;
+    width:95%;
+    margin: 5px;
+    padding: 5px;
+    margin-right: auto;
+    margin-left : auto;
+    font-family: 'Arial',YuGothic,'Yu Gothic','ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ', Meiryo,'ＭＳ ゴシック',sans-serif;
+}}
+
+/**/
+/**/
+
+/*common*/
+/*common*/
+/*common*/
+h3{
+    color: #183152;
+}
+/*OAuthボタン*/
+input#oauth {
+    padding: 10px 30px;
+    margin: 10px;
+    font-size: 1.1em;
+    background-color: #3F51B5;
+    color: #FFFFFF;
+    border-style: none;
+}
+
+
+
+/*TOP*/
+/*TOP*/
+/*TOP*/
+.title{
+    text-align:center
+}
+.title-image{
+
+}
+.title-text{
+}
+
+.content-text{
+   margin-top: 40px;
+   margin-bottom: 40px;
+}
+
+.caution-text{
+   margin-top: 40px;
+   margin-bottom: 40px;
+   font-size: 0.9em;
+}
+.caution-content-li{
+   margin-top: -0.8em;
+   font-size: 0.9em;
+
+}
+
+
+
+/*DETAIL*/
+/*DETAIL*/
+/*DETAIL*/
+
+.text-box{
+   margin-top: 2.5em;
+}
+.tweet-image{
+   margin-top: 5em;
+}
+.button-additional{
+    margin-top: 3em;
+    margin-bottom: 10em;
+}
+
+
+/*SEARCH*/
+/*SEARCH*/
+/*SEARCH*/
+
+/*入力欄*/
+.input-form{
+    width: 300px;
+    height: 10em;
+    padding: 7px 7px;
+    margin: 5px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 1.03em;
+    background-color: #FFFFFF;
+    color: 375D81;
+    border: 3px solid #C5CAE9;
+}
+
+/*検索ボタン*/
+input#search {
+    padding: 10px 30px;
+    margin: 10px;
+    font-size: 1.1em;
+    background-color: #3F51B5;
+    color: #FFFFFF;
+    border-style: none;
+}
+
+
+
+.page-button{
+    text-align:center
+}
+
+
+/*RESULT*/
+/*RESULT*/
+/*RESULT*/
+
+.tweet-box {
+    width: 100%;
+    height: auto;
+    overflow: hidden; /*floatの解除*/
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 3px solid #C5CAE9;
+}
+
+.tweet-name {
+    font-size: 1.10em;
+}
+
+.tweet-text {
+    font-size: 1.00em;
+}
+
+.tweet-date {
+    font-size: 0.80em;
+}
+
+
