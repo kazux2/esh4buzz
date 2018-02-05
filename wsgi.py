@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from router import app as application
+from router import app
 
 if __name__ == "__main__":
     app.run()
