@@ -115,17 +115,25 @@ def result():
             twitter_search.session_receiver(session)
 
             search_word_dict = nlp.text_segmentation(query, 99, 3) #query, limit, accuracy
+
             search_word_json = json_formatter.search_dict_to_json(search_word_dict)
 
-            from data_formatter_jsoninitfix import JsonFormatter_json_init
+            from json_formatter_json_init_fix import JsonFormatter_json_init
             json_fix = JsonFormatter_json_init()
 
             tweet_list_temp = json_fix.make_tweet_list_temp()
             search_result   = json_fix.make_search_result(search_word_dict)
+
+
             tweet_list_json = json_fix.make_tweet_list_json(search_word_dict)
 
-            tweet_list_json = json_formatter.tw_json_to_html_json(search_word_dict, search_result, tweet_list_temp,
-                                                        tweet_list_json)
+
+            from json_formatter_tw_json_to_html_json_fix import JsonFormatter_tw_json_to_html_json
+            jftjthj = JsonFormatter_tw_json_to_html_json()
+
+            search_result = jftjthj.execute_twtter_search(search_word_dict, search_result)
+            tweet_list_json = jftjthj.make_tweet_list_json(search_word_dict, search_result, tweet_list_temp, tweet_list_json)
+
             tweet_list_json = json_formatter.del_empty_json(tweet_list_json, search_word_dict)
 
 
