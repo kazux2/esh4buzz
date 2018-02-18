@@ -99,7 +99,6 @@ def result():
     if request.method == 'POST':
 
         timer.start()
-        print("----- TextSegmentation ----- [Calc, Save] Started at : {}".format(timer.now()))
 
         query = request.form["target_text"]
 
@@ -112,23 +111,19 @@ def result():
         # print("1 r_dict")
         # print(r_dict)
         # print("----------------------")
-        print("----- TextSegmentation ----- [Calc, Save] Stoped at : {}".format(timer.now()))
-        print("----- TextSegmentation ----- [Calc, Save] Duration  : {}".format(timer.stop()))
+        print("----- TextSegmentation ----- Duration  : {}".format(timer.stop()))
 
 
         timer.start()
-        print("----- TwiSearch ----- [Calc, Save] Started at : {}".format(timer.now()))
 
         from twi_search import TwiSearch
         twi = TwiSearch(sess)
         search_result = twi.make_search_result(search_word_dict)
 
-        print("----- TwiSearch ----- [Calc, Save] Stoped at : {}".format(timer.now()))
-        print("----- TwiSearch ----- [Calc, Save] Duration  : {}".format(timer.stop()))
+        print("----- TwiSearch        ----- Duration  : {}".format(timer.stop()))
 
 
         timer.start()
-        print("----- JsonFormatter ----- [Calc, Save] Started at : {}".format(timer.now()))
 
         from json_formatter import JsonFormatter
         jf = JsonFormatter()
@@ -137,8 +132,7 @@ def result():
         tweet_list_json = jf.input_tweet_list_json(search_word_dict, search_result, init_tweet_list_json)
         tweet_list_json = jf.del_empty_json(tweet_list_json, search_word_dict)
 
-        print("----- JsonFormatter ----- [Calc, Save] Stoped at : {}".format(timer.now()))
-        print("----- JsonFormatter ----- [Calc, Save] Duration  : {}".format(timer.stop()))
+        print("----- JsonFormatter    ----- Duration  : {}".format(timer.stop()))
 
         # Save function
         # from model import Model
