@@ -7,18 +7,16 @@ import json
 
 class JsonFormatter(object):
 
-    def execute_basics(self, search_word_dict):
+    def search_dict_to_json(self, search_word_dict):
+        search_word_json = {}
+        for i in range(len(search_word_dict)):
+            if search_word_dict[i] == "":
+                continue
 
-        search_result, \
-        tweet_list_temp, \
-        tweet_list_json = self.json_init(search_word_dict)
+            else:
+                search_word_json[str(i)] = {"0": search_word_dict[i]}
 
-        tweet_list_json = self.tw_json_to_html_json(search_word_dict, search_result, tweet_list_temp, tweet_list_json)
-        tweet_list_json = self.del_empty_json(tweet_list_json, search_word_dict)
-
-        return tweet_list_json
-
-
+        return search_word_json
 
     def load_search_result(self, path = 'json_data/search_1135_ja.json'):
         f = open(path, 'r')
@@ -134,14 +132,5 @@ class JsonFormatter(object):
                     print(json[str(i)][str(j)]["text"])
                     print("")
 
-    def search_dict_to_json(self, search_word_dict):
-        search_word_json = {}
-        for i in range(len(search_word_dict)):
-            if search_word_dict[i] == "":
-                continue
 
-            else:
-                search_word_json[str(i)] = {"0": search_word_dict[i]}
-
-        return search_word_json
 

@@ -116,8 +116,17 @@ def result():
 
             search_word_dict = nlp.text_segmentation(query, 99, 3) #query, limit, accuracy
             search_word_json = json_formatter.search_dict_to_json(search_word_dict)
+            # tweet_list_json = json_formatter.execute_basics(search_word_dict)
 
-            tweet_list_json = json_formatter.execute_basics(search_word_dict)
+            search_result, \
+            tweet_list_temp, \
+            tweet_list_json = json_formatter.json_init(search_word_dict)
+
+            tweet_list_json = json_formatter.tw_json_to_html_json(search_word_dict, search_result, tweet_list_temp,
+                                                        tweet_list_json)
+            tweet_list_json = json_formatter.del_empty_json(tweet_list_json, search_word_dict)
+
+
 
             # premiere account function
             # json_formatter.save_result_tweet('json_data/result_tweet_json8.json', tweet_list_json)
