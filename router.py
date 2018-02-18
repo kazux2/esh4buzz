@@ -2,23 +2,19 @@
 
 import logging
 from flask import Flask, redirect, render_template, request, url_for
-
 import tweepy
-
-
-from settings import SETTING, SETTING0
+from settings import SETTING
 
 
 CONSUMER_KEY    = SETTING['twitter']['CONSUMER_KEY']
 CONSUMER_SECRET = SETTING['twitter']['CONSUMER_SECRET']
 CALLBACK_URL    = SETTING['twitter']['CALLBACK_URL']
 
-CONSUMER_KEY0 = SETTING0['twitter']['CONSUMER_KEY']
-
-session = dict()
+sess = {}
 
 app = Flask(__name__)
 app.secret_key = SETTING['flask']['SECRET_KEY']
+
 
 
 """
@@ -37,13 +33,18 @@ app.secret_key = SETTING['flask']['SECRET_KEY']
 """
 
 
+
 @app.route("/")
 def top():
     return render_template("top.html")
 
+
+
 @app.route("/detail")
 def detail():
     return render_template("detail.html")
+
+
 
 @app.route('/oauth', methods=['GET'])
 def oauth():
@@ -52,12 +53,11 @@ def oauth():
 
     try:
         redirect_url = auth.get_authorization_url()
-        session['request_token'] = (auth.request_token)
+        sess['request_token'] = (auth.request_token)
         return redirect(redirect_url)
 
     except tweepy.TweepError:
         print('Error! Failed to get request token')
-
 
 
 
@@ -67,13 +67,9 @@ def verify():
     verifier = request.args['oauth_verifier']
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    token = session['request_token']
-    # del session['request_token']
 
-    auth.request_token = {'oauth_token': token['oauth_token'],
-                          'oauth_token_secret': token['oauth_token_secret']}
-    del token
-
+    auth.request_token = {'oauth_token': sess['request_token']['oauth_token'],
+                          'oauth_token_secret': sess['request_token']['oauth_token_secret']}
 
     try:
         auth.get_access_token(verifier)
@@ -82,11 +78,12 @@ def verify():
 
     api = tweepy.API(auth)
 
-    session['api'] = api
-    session['access_token_key'] = auth.access_token
-    session['access_token_secret'] = auth.access_token_secret
+    sess['api'] = api
+    sess['access_token_key'] = auth.access_token
+    sess['access_token_secret'] = auth.access_token_secret
 
     return redirect(url_for('search'))
+
 
 
 @app.route("/search")
@@ -94,9 +91,9 @@ def search():
     return render_template("search.html")
 
 
+
 @app.route("/result", methods=['post'])
 def result():
-    global session
     if request.method == 'POST':
 
         query = request.form["target_text"]
@@ -112,8 +109,7 @@ def result():
         # print("----------------------")
 
         from twi_search import TwiSearch
-        twi = TwiSearch()
-        twi.session_receiver(session)
+        twi = TwiSearch(sess)
         search_result = twi.make_search_result(search_word_dict)
 
 
@@ -134,8 +130,8 @@ def result():
 
 
 
-""" MAKE SURE DEBUG FALSE """
+""" MAKE SURE to DEBUG FALSE """
 
 if __name__ == '__main__':
-    app.debug = False # when deploy debug False
+    app.debug = False
     app.run(host='0.0.0.0')

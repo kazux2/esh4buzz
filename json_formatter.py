@@ -52,6 +52,7 @@ class JsonFormatter(object):
         return tweet_list_json
 
 
+
     def del_empty_json(self, tweet_list_json, search_word_dict):
 
         for i in range(len(tweet_list_json)):
