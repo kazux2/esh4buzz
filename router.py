@@ -2,21 +2,23 @@
 
 import logging
 from flask import Flask, redirect, render_template, request, url_for
+from NLP import NLP
 import tweepy
-from settings import SETTING
-from timer import Timer
+from twitter_search import TwitterSearch
+from data_formatter import JsonFormatter
+from settings import SETTING, SETTING0
 
 
 CONSUMER_KEY    = SETTING['twitter']['CONSUMER_KEY']
 CONSUMER_SECRET = SETTING['twitter']['CONSUMER_SECRET']
 CALLBACK_URL    = SETTING['twitter']['CALLBACK_URL']
 
-sess = {}
+CONSUMER_KEY0 = SETTING0['twitter']['CONSUMER_KEY']
+
+session = dict()
 
 app = Flask(__name__)
 app.secret_key = SETTING['flask']['SECRET_KEY']
-
-timer = Timer()
 
 
 """
@@ -35,18 +37,13 @@ timer = Timer()
 """
 
 
-
 @app.route("/")
 def top():
     return render_template("top.html")
 
-
-
 @app.route("/detail")
 def detail():
     return render_template("detail.html")
-
-
 
 @app.route('/oauth', methods=['GET'])
 def oauth():
@@ -55,11 +52,12 @@ def oauth():
 
     try:
         redirect_url = auth.get_authorization_url()
-        sess['request_token'] = (auth.request_token)
+        session['request_token'] = (auth.request_token)
         return redirect(redirect_url)
 
     except tweepy.TweepError:
         print('Error! Failed to get request token')
+
 
 
 
@@ -69,9 +67,13 @@ def verify():
     verifier = request.args['oauth_verifier']
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+    token = session['request_token']
+    # del session['request_token']
 
-    auth.request_token = {'oauth_token': sess['request_token']['oauth_token'],
-                          'oauth_token_secret': sess['request_token']['oauth_token_secret']}
+    auth.request_token = {'oauth_token': token['oauth_token'],
+                          'oauth_token_secret': token['oauth_token_secret']}
+    del token
+
 
     try:
         auth.get_access_token(verifier)
@@ -80,12 +82,11 @@ def verify():
 
     api = tweepy.API(auth)
 
-    sess['api'] = api
-    sess['access_token_key'] = auth.access_token
-    sess['access_token_secret'] = auth.access_token_secret
+    session['api'] = api
+    session['access_token_key'] = auth.access_token
+    session['access_token_secret'] = auth.access_token_secret
 
     return redirect(url_for('search'))
-
 
 
 @app.route("/search")
@@ -93,59 +94,44 @@ def search():
     return render_template("search.html")
 
 
-
 @app.route("/result", methods=['post'])
 def result():
+    global session
     if request.method == 'POST':
-
-        timer.start()
 
         query = request.form["target_text"]
 
-        from text_segmentation import TextSegmentation
-        txt_seg = TextSegmentation()
-        r_dict           = txt_seg.segment_text(query, 99)       # query, limit
-        r_dict           = txt_seg.join_dict_elements(r_dict, 3) # minimum elements
-        search_word_dict = txt_seg.reindex_r_dict(r_dict)
-        #debug
-        # print("1 r_dict")
-        # print(r_dict)
-        # print("----------------------")
-        print("----- TextSegmentation ----- Duration  : {}".format(timer.stop()))
+        nlp = NLP()
+        twitter_search = TwitterSearch()
+
+        count_query = nlp.count_segmentation(query)
+        count = nlp.capacity_check(count_query)
 
 
-        timer.start()
+        if count:
 
-        from twi_search import TwiSearch
-        twi = TwiSearch(sess)
-        search_result = twi.make_search_result(search_word_dict)
+            json_formatter = JsonFormatter()
 
-        print("----- TwiSearch        ----- Duration  : {}".format(timer.stop()))
+            twitter_search.session_receiver(session)
 
+            search_word_dict = nlp.text_segmentation(query, 99, 3) #query, limit, accuracy
+            search_word_json = json_formatter.search_dict_to_json(search_word_dict)
 
-        timer.start()
+            tweet_list_json = json_formatter.execute_basics(search_word_dict)
 
-        from json_formatter import JsonFormatter
-        jf = JsonFormatter()
-        init_tweet_list_json = jf.init_tweet_list_json(search_word_dict, search_result)
-        search_word_json = jf.search_dict_to_json(search_word_dict)
-        tweet_list_json = jf.input_tweet_list_json(search_word_dict, search_result, init_tweet_list_json)
-        tweet_list_json = jf.del_empty_json(tweet_list_json, search_word_dict)
-
-        print("----- JsonFormatter    ----- Duration  : {}".format(timer.stop()))
-
-        # Save function
-        # from model import Model
-        # model = Model()
-        # model.save_result_tweet('json_data/result_tweet_json8.json', tweet_list_json)
-        # tweet_list_json = model.load_search_result('json_data/result_tweet_json8.json')
-
-        return render_template("result.html", tweet_list_json=tweet_list_json, search_word_json=search_word_json)
+            # premiere account function
+            # json_formatter.save_result_tweet('json_data/result_tweet_json8.json', tweet_list_json)
+            # tweet_list_json = json_formatter.load_search_result('json_data/result_tweet_json8.json')
 
 
+            return render_template("result.html", tweet_list_json = tweet_list_json, search_word_json = search_word_json)
 
-""" MAKE SURE to DEBUG FALSE """
+        else:
+            return render_template("search_failed.html", jsonn={'message':'either query is too long or too short dayo'})
+
+
+""" MAKE SURE DEBUG FALSE """
 
 if __name__ == '__main__':
-    app.debug = False
+    app.debug = False # when deploy debug False
     app.run(host='0.0.0.0')
