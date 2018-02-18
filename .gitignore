@@ -12,3 +12,4 @@ log/*
 settings.py
 _run.py
 /eshenv/*
+timer.py
