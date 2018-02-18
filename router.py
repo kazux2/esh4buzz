@@ -5,7 +5,7 @@ from flask import Flask, redirect, render_template, request, url_for
 from NLP import NLP
 import tweepy
 from twitter_search import TwitterSearch
-from json_formatter import JsonForHTML
+
 from settings import SETTING, SETTING0
 
 
@@ -110,40 +110,30 @@ def result():
 
         if count:
 
-            json_formatter = JsonForHTML()
+
 
             twitter_search.session_receiver(session)
 
             search_word_dict = nlp.text_segmentation(query, 99, 3) #query, limit, accuracy
-
-            search_word_json = json_formatter.search_dict_to_json(search_word_dict)
 
             from json_formatter_json_init_fix import JsonFormatter_json_init
             json_fix = JsonFormatter_json_init()
 
             tweet_list_temp = json_fix.make_tweet_list_temp()
             search_result   = json_fix.make_search_result(search_word_dict)
+            init_tweet_list_json = json_fix.init_tweet_list_json(search_word_dict, search_result)
 
-
-            tweet_list_json = json_fix.make_tweet_list_json(search_word_dict)
-
-
-            from search_executer import SearchExecuter
-            se = SearchExecuter()
-
-            search_result = se.execute_twtter_search(search_word_dict, search_result)
-            tweet_list_json = se.make_tweet_list_json(search_word_dict, search_result, tweet_list_temp, tweet_list_json)
-
-            tweet_list_json = se.del_empty_json(tweet_list_json, search_word_dict)
-
-
+            from json_formatter import JsonFormatter
+            jf = JsonFormatter()
+            search_word_json = jf.search_dict_to_json(search_word_dict)
+            tweet_list_json = jf.input_tweet_list_json(search_word_dict, search_result, tweet_list_temp, init_tweet_list_json)
+            tweet_list_json = jf.del_empty_json(tweet_list_json, search_word_dict)
 
             # Save function
             # from model import Model
             # model = Model()
             # model.save_result_tweet('json_data/result_tweet_json8.json', tweet_list_json)
             # tweet_list_json = model.load_search_result('json_data/result_tweet_json8.json')
-
 
             return render_template("result.html", tweet_list_json = tweet_list_json, search_word_json = search_word_json)
 
