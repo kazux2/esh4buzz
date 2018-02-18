@@ -11,3 +11,4 @@ log/*
 !.gitkeep
 settings.py
 _run.py
+/eshenv/*
