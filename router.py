@@ -117,10 +117,6 @@ def result():
             search_word_dict = nlp.text_segmentation(query, 99, 3) #query, limit, accuracy
             search_word_json = json_formatter.search_dict_to_json(search_word_dict)
 
-            # search_result, \
-            # tweet_list_temp, \
-            # tweet_list_json = json_formatter.json_init(search_word_dict)
-            print("debug json fix")
             from data_formatter_jsoninitfix import JsonFormatter_json_init
             json_fix = JsonFormatter_json_init()
 
