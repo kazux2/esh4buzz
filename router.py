@@ -130,9 +130,11 @@ def result():
 
 
 
-            # premiere account function
-            # json_formatter.save_result_tweet('json_data/result_tweet_json8.json', tweet_list_json)
-            # tweet_list_json = json_formatter.load_search_result('json_data/result_tweet_json8.json')
+            # Save function
+            # from model import Model
+            # model = Model()
+            # model.save_result_tweet('json_data/result_tweet_json8.json', tweet_list_json)
+            # tweet_list_json = model.load_search_result('json_data/result_tweet_json8.json')
 
 
             return render_template("result.html", tweet_list_json = tweet_list_json, search_word_json = search_word_json)
