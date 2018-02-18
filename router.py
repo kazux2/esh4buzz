@@ -5,7 +5,7 @@ from flask import Flask, redirect, render_template, request, url_for
 from NLP import NLP
 import tweepy
 from twitter_search import TwitterSearch
-from json_formatter import JsonFormatter
+from json_formatter import JsonForHTML
 from settings import SETTING, SETTING0
 
 
@@ -110,7 +110,7 @@ def result():
 
         if count:
 
-            json_formatter = JsonFormatter()
+            json_formatter = JsonForHTML()
 
             twitter_search.session_receiver(session)
 
@@ -128,13 +128,13 @@ def result():
             tweet_list_json = json_fix.make_tweet_list_json(search_word_dict)
 
 
-            from json_formatter_tw_json_to_html_json_fix import JsonFormatter_tw_json_to_html_json
-            jftjthj = JsonFormatter_tw_json_to_html_json()
+            from search_executer import SearchExecuter
+            se = SearchExecuter()
 
-            search_result = jftjthj.execute_twtter_search(search_word_dict, search_result)
-            tweet_list_json = jftjthj.make_tweet_list_json(search_word_dict, search_result, tweet_list_temp, tweet_list_json)
+            search_result = se.execute_twtter_search(search_word_dict, search_result)
+            tweet_list_json = se.make_tweet_list_json(search_word_dict, search_result, tweet_list_temp, tweet_list_json)
 
-            tweet_list_json = json_formatter.del_empty_json(tweet_list_json, search_word_dict)
+            tweet_list_json = se.del_empty_json(tweet_list_json, search_word_dict)
 
 
 

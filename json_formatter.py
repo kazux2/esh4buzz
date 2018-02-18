@@ -5,7 +5,7 @@ import json
 
 
 
-class JsonFormatter(object):
+class JsonForHTML(object):
 
     def search_dict_to_json(self, search_word_dict):
         search_word_json = {}
@@ -20,21 +20,7 @@ class JsonFormatter(object):
 
 
 
-    def del_empty_json(self, jsonn, search_word_dict):
 
-        for i in range(len(jsonn)):
-            if search_word_dict[i] == "":
-                continue
-
-            elif jsonn[str(i)] == {}:
-                del jsonn[str(i)]
-
-            else:
-                for j in range(len(jsonn[str(i)])):
-                    if jsonn[str(i)][str(j)] == "j_init":
-                        del jsonn[str(i)][str(j)]
-
-        return jsonn
 
 
 
