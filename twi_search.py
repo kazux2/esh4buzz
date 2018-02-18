@@ -11,7 +11,7 @@ Standard search API parameters documentation at
 https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
 """
 
-class TwitterSearch(object):
+class TwiSearch(object):
     CONSUMER_KEY    = SETTING['twitter']['CONSUMER_KEY']
     CONSUMER_SECRET = SETTING['twitter']['CONSUMER_SECRET']
     CALLBACK_URL    = SETTING['twitter']['CALLBACK_URL']
@@ -27,9 +27,27 @@ class TwitterSearch(object):
         result = self.twitter.search.tweets(q = search_query, lang = lang, result_type = result_type)
         return result
 
+
+
     def session_receiver(self, session):
         self.session = session
         self.oauth_token = session['access_token_key']
         self.oauth_secret = session['access_token_secret']
+
+
+
+    def make_search_result(self, search_word_dict):
+
+        search_result = {}
+
+        for i in range(len(search_word_dict)):
+
+            if search_word_dict[i] == "":
+                continue
+
+            else:
+                search_result[i] = self.search(search_word_dict[i])
+
+        return search_result
 
 

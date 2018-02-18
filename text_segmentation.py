@@ -6,9 +6,9 @@ import MeCab
 
 class TextSegmentation(object):
 
+
+
     hiragana = []
-
-
 
     def __init__(self, args=(12353, 12436)):
         # アルファベット小文字→(97, 123)
@@ -51,6 +51,7 @@ class TextSegmentation(object):
 
             elif (node.feature.split(",")[0] == "記号" and node.feature.split(",")[1] == "句点") \
                 or (node.feature.split(",")[0] == "記号" and node.feature.split(",")[1] == "読点"):
+
                 try:
                     r_dict[count] = r_dict[count]
                     count += 1
