@@ -2,7 +2,7 @@
 
 import logging
 from flask import Flask, redirect, render_template, request, url_for
-from NLP import NLP
+
 import tweepy
 from twitter_search import TwitterSearch
 
@@ -100,45 +100,47 @@ def result():
     if request.method == 'POST':
 
         query = request.form["target_text"]
-
-        nlp = NLP()
+        from text_segmentation import TextSegmentation
+        ts = TextSegmentation()
         twitter_search = TwitterSearch()
 
-        count_query = nlp.count_segmentation(query)
-        count = nlp.capacity_check(count_query)
+        # count_query = nlp.count_segmentation(query)
+        # count = nlp.capacity_check(count_query)
 
+        # if count:
+        #     pass
+        #
+        # else:
+        #     return render_template("search_failed.html", jsonn={'message':'either query is too long or too short dayo'})
 
-        if count:
+        twitter_search.session_receiver(session)
 
+        r_dict = ts.segment_text(query, 99)  # query, limit
+        r_dict = ts.join_dict_elements(r_dict, 3) # minimum elements
+        search_word_dict = ts.reindex_r_dict(r_dict)
 
+        from json_formatter_json_init_fix import JsonFormatter_json_init
+        json_fix = JsonFormatter_json_init()
 
-            twitter_search.session_receiver(session)
+        tweet_list_temp = json_fix.make_tweet_list_temp()
+        search_result = json_fix.make_search_result(search_word_dict)
+        init_tweet_list_json = json_fix.init_tweet_list_json(search_word_dict, search_result)
 
-            search_word_dict = nlp.text_segmentation(query, 99, 3) #query, limit, accuracy
+        from json_formatter import JsonFormatter
+        jf = JsonFormatter()
+        search_word_json = jf.search_dict_to_json(search_word_dict)
+        tweet_list_json = jf.input_tweet_list_json(search_word_dict, search_result, tweet_list_temp,
+                                                   init_tweet_list_json)
+        tweet_list_json = jf.del_empty_json(tweet_list_json, search_word_dict)
 
-            from json_formatter_json_init_fix import JsonFormatter_json_init
-            json_fix = JsonFormatter_json_init()
+        # Save function
+        # from model import Model
+        # model = Model()
+        # model.save_result_tweet('json_data/result_tweet_json8.json', tweet_list_json)
+        # tweet_list_json = model.load_search_result('json_data/result_tweet_json8.json')
 
-            tweet_list_temp = json_fix.make_tweet_list_temp()
-            search_result   = json_fix.make_search_result(search_word_dict)
-            init_tweet_list_json = json_fix.init_tweet_list_json(search_word_dict, search_result)
+        return render_template("result.html", tweet_list_json=tweet_list_json, search_word_json=search_word_json)
 
-            from json_formatter import JsonFormatter
-            jf = JsonFormatter()
-            search_word_json = jf.search_dict_to_json(search_word_dict)
-            tweet_list_json = jf.input_tweet_list_json(search_word_dict, search_result, tweet_list_temp, init_tweet_list_json)
-            tweet_list_json = jf.del_empty_json(tweet_list_json, search_word_dict)
-
-            # Save function
-            # from model import Model
-            # model = Model()
-            # model.save_result_tweet('json_data/result_tweet_json8.json', tweet_list_json)
-            # tweet_list_json = model.load_search_result('json_data/result_tweet_json8.json')
-
-            return render_template("result.html", tweet_list_json = tweet_list_json, search_word_json = search_word_json)
-
-        else:
-            return render_template("search_failed.html", jsonn={'message':'either query is too long or too short dayo'})
 
 
 """ MAKE SURE DEBUG FALSE """

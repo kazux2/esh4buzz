@@ -1,13 +1,13 @@
 # coding: UTF-8
 
 import MeCab
-import re
 
 
 
-class NLP(object):
+class TextSegmentation(object):
 
     hiragana = []
+
 
 
     def __init__(self, args=(12353, 12436)):
@@ -19,74 +19,13 @@ class NLP(object):
         # 全角数字→(65296, 65306)
         self.hiragana = [chr(i) for i in range(12353, 12436)]
 
-    def count_segmentation(self, sentence):
-
-        mecab = MeCab.Tagger("-Ochasen")
-        node = mecab.parseToNode(sentence)
-
-        count = 0
-
-        while node:
-            if node.feature.split(",")[0] == "記号" and node.feature.split(",")[1] == "句点":
-                count += 1
-
-            elif node.feature.split(",")[0] == "記号" and node.feature.split(",")[1] == "読点":
-                count += 1
-
-            node = node.next
-
-        return count
 
 
-
-    def capacity_check(self, count, limit = 100):
-
-        if count <= limit:
-            return count
-        else:
-            return None
-
-
-
-    # def text_segmentation(self, sentence):
-    #
-    #     mecab = MeCab.Tagger("-Ochasen")
-    #     node = mecab.parseToNode(sentence)
-    #
-    #     r_dict = {}
-    #     count = 0
-    #
-    #     while node:
-    #         r_dict.setdefault(count, [])
-    #
-    #         if node.feature.split(",")[0] == "名詞" and node.surface not in self.hiragana:
-    #             r_dict[count].append("{}".format(node.surface))
-    #
-    #         elif node.feature.split(",")[0] == "動詞" and node.feature.split(",")[1] == "自立" and node.surface not in self.hiragana:
-    #             r_dict[count].append("{}".format(node.surface))
-    #
-    #         elif node.feature.split(",")[0] == "記号" and node.feature.split(",")[1] == "句点" and len(r_dict[count]) != 0:
-    #             count += 1
-    #
-    #         elif node.feature.split(",")[0] == "記号" and node.feature.split(",")[1] == "読点" and len(r_dict[count]) != 0:
-    #             count += 1
-    #
-    #         node = node.next
-    #
-    #
-    #     for i in range(len(r_dict)):
-    #         r_dict[i] = " ".join(r_dict[i])
-    #     print(len(r_dict[4]))
-    #
-    #     return r_dict
-
-
-
-    def text_segmentation(self, sentence, limit = 99, accuracy = 3):
+    def segment_text(self, text, limit = 99):
 
         mecab = MeCab.Tagger("-Ochasen")
         mecab.parse('')
-        node = mecab.parseToNode(sentence)
+        node = mecab.parseToNode(text)
 
 
         r_dict = {}
@@ -120,36 +59,46 @@ class NLP(object):
 
             node = node.next
 
-        # for i in range(len(r_dict)):
-        #     r_dict[i] = " ".join(r_dict[i])
+        return r_dict
+
+
+
+    def join_dict_elements(self, r_dict, minimum_elements = 3):
+
         for i in range(len(r_dict)):
-            if len(r_dict[i]) <accuracy:
+            if len(r_dict[i]) <minimum_elements:
                 r_dict.pop(i)
             else:
                 r_dict[i] = " ".join(r_dict[i])
 
-        # re-indexing
-        r_dict_refine = {}
+        return r_dict
+
+
+
+    def reindex_r_dict(self, r_dict):
+
+        refined_r_dict = {}
         dict_index = 0
+
         for i in r_dict.keys():
-            r_dict_refine[dict_index] = r_dict[i]
+            refined_r_dict[dict_index] = r_dict[i]
             dict_index += 1
 
-
-        return r_dict_refine
-
+        return refined_r_dict
 
 
-def just_mecabbing(keyword):
-    mecab = MeCab.Tagger("-Ochasen")
-    mecab.parse('')
-    node = mecab.parseToNode(keyword)
 
-    node = node.next
-    while node:
-        print(node.surface + "  " + node.feature)
-        node = node.next
+# def just_mecabbing(keyword):
+#     mecab = MeCab.Tagger("-Ochasen")
+#     mecab.parse('')
+#     node = mecab.parseToNode(keyword)
+#
+#     node = node.next
+#     while node:
+#         print(node.surface + "  " + node.feature)
+#         node = node.next
 
+#sample text
 keyword1 = "完璧な文章などといったものは存在しない。完璧な絶望が存在しないようにね。"
 keyword2 = "重ねて言いますが、勉強とはノーマライゼーション、つまり“よりノーマルへと近づき、ノーマルな基準の中で偉くなること”ではありません。ノーマルの基準からズレたところで、ノーマルな人たちに後ろ指さされながらも、そこで独自のフィールドを展開すること。これこそがこの本で提唱する“勉強”なんです。"
 keyword3 = "いわゆる受験戦争を乗り越えてきた人たちはみな、勉強を頑張ったことで周囲とズレが生じたというトラウマがあるんです。『勉強の哲学』を書くにあたり、そういった人たちが共感できる部分をあえて集めたところはあります。なぜなら、このトラウマに焦点を当てた本というのが今までなかったからです。学校の勉強なんてクソくらえだ！”という感じで生きてきた人が自分なりのやり方を貫いて成功した話、勉強しなかった人への応援歌といったものはたくさん書かれているのに、逆に勉強したことで不幸になった人への応援歌はなかった。きっと多くの人は、勉強すると何かトクをするとか、社会的にいい立場に行けると思っているんでしょうね。でも必ずしもそうじゃない。勉強することで、みんなが楽しめることが自分だけ楽しめなくなる、ノーマルさを失うということがある。これは『勉強の哲学』の大切なテーマです。"
