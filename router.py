@@ -5,7 +5,7 @@ from flask import Flask, redirect, render_template, request, url_for
 from NLP import NLP
 import tweepy
 from twitter_search import TwitterSearch
-from data_formatter import JsonFormatter
+from json_formatter import JsonFormatter
 from settings import SETTING, SETTING0
 
 
