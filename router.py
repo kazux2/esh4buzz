@@ -39,7 +39,8 @@ timer = Timer()
 @app.route("/")
 def top():
 
-    session.clear()
+    del session
+    session.modified = True
 
     return render_template("top.html")
 
