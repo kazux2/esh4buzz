@@ -4,8 +4,6 @@
 
 class JsonFormatter(object):
 
-
-
     def init_tweet_list_json(self, search_word_dict, search_result):
 
         tweet_list_json = {}

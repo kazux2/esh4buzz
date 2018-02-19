@@ -6,8 +6,6 @@ import MeCab
 
 class TextSegmentation(object):
 
-
-
     hiragana = []
 
     def __init__(self, args=(12353, 12436)):
@@ -26,7 +24,6 @@ class TextSegmentation(object):
         mecab = MeCab.Tagger("-Ochasen")
         mecab.parse('')
         node = mecab.parseToNode(text)
-
 
         r_dict = {}
         count = 0
