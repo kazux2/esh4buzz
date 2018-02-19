@@ -11,7 +11,7 @@ CONSUMER_KEY    = SETTING['twitter']['CONSUMER_KEY']
 CONSUMER_SECRET = SETTING['twitter']['CONSUMER_SECRET']
 CALLBACK_URL    = SETTING['twitter']['CALLBACK_URL']
 
-# sess = {}
+sess = {}
 
 app = Flask(__name__)
 app.secret_key = SETTING['flask']['SECRET_KEY']
@@ -55,11 +55,11 @@ def oauth():
 
     try:
         redirect_url = auth.get_authorization_url()
-        # sess['request_token'] = (auth.request_token)
-        session['request_token'].append(auth.request_token)
-        session.modified = True
+        sess['request_token'] = (auth.request_token)
+        # session['request_token'] = (auth.request_token)
+        # session.modified = True
         print("debug ---1---")
-        print(session)
+        print(sess)
         return redirect(redirect_url)
 
     except tweepy.TweepError:
@@ -74,9 +74,9 @@ def verify():
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
     print("debug ---2---")
-    print(session)
-    auth.request_token = {'oauth_token': session['request_token']['oauth_token'],
-                          'oauth_token_secret': session['request_token']['oauth_token_secret']}
+    print(sess)
+    auth.request_token = {'oauth_token': sess['request_token']['oauth_token'],
+                          'oauth_token_secret': sess['request_token']['oauth_token_secret']}
 
     try:
         auth.get_access_token(verifier)
@@ -85,11 +85,11 @@ def verify():
 
     api = tweepy.API(auth)
 
-    session['api'] = api
-    session['access_token_key'] = auth.access_token
-    session['access_token_secret'] = auth.access_token_secret
+    sess['api'] = api
+    sess['access_token_key'] = auth.access_token
+    sess['access_token_secret'] = auth.access_token_secret
     print("debug ---3---")
-    print(session)
+    print(sess)
 
     return redirect(url_for('search'))
 
@@ -123,10 +123,10 @@ def result():
 
         timer.start()
         print("At router /request")
-        print(type(session))
-        print(session)
+        print(type(sess))
+        print(sess)
         from twi_search import TwiSearch
-        twi = TwiSearch(session)
+        twi = TwiSearch(sess)
         search_result = twi.make_search_result(search_word_dict)
 
         print("----- TwiSearch        ----- Duration  : {}".format(timer.stop()))
