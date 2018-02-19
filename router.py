@@ -11,7 +11,7 @@ CONSUMER_KEY    = SETTING['twitter']['CONSUMER_KEY']
 CONSUMER_SECRET = SETTING['twitter']['CONSUMER_SECRET']
 CALLBACK_URL    = SETTING['twitter']['CALLBACK_URL']
 
-sess = {}
+# sess = {}
 
 app = Flask(__name__)
 app.secret_key = SETTING['flask']['SECRET_KEY']
@@ -38,6 +38,9 @@ timer = Timer()
 
 @app.route("/")
 def top():
+
+    session.clear()
+
     return render_template("top.html")
 
 
@@ -87,6 +90,8 @@ def verify():
     session['api'] = api
     session['access_token_key'] = auth.access_token
     session['access_token_secret'] = auth.access_token_secret
+    print("debug ---3---")
+    print(session)
 
     return redirect(url_for('search'))
 
