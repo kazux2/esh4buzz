@@ -52,7 +52,7 @@ def detail():
 def oauth():
     # for desk top app, giving callback_url causes an error
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-
+    global sess
     try:
         redirect_url = auth.get_authorization_url()
         sess['request_token'] = (auth.request_token)
@@ -69,7 +69,7 @@ def oauth():
 
 @app.route("/verify")
 def verify():
-
+    global sess
     verifier = request.args['oauth_verifier']
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -103,6 +103,7 @@ def search():
 
 @app.route("/result", methods=['post'])
 def result():
+    global sess
     if request.method == 'POST':
 
         timer.start()
