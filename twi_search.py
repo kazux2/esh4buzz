@@ -23,8 +23,6 @@ class TwiSearch(object):
 
     twi = Twitter()
 
-
-
     def __init__(self, sess):
         print("At TwiSearch init")
         print(type(sess))
