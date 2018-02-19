@@ -2,8 +2,12 @@
 
 import json
 
+
+
 class Model(object):
-    print("have I ever used?")
+
+
+
     def load_search_result(self, path = 'json_data/search_1135_ja.json'):
         f = open(path, 'r')
         search_result_read = json.load(f)
