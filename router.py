@@ -38,9 +38,6 @@ timer = Timer()
 
 @app.route("/")
 def top():
-
-    session.modified = True
-
     return render_template("top.html")
 
 
@@ -59,7 +56,8 @@ def oauth():
     try:
         redirect_url = auth.get_authorization_url()
         # sess['request_token'] = (auth.request_token)
-        session['request_token'] = (auth.request_token)
+        session['request_token'].append(auth.request_token)
+        session.modified = True
         print("debug ---1---")
         print(session)
         return redirect(redirect_url)
