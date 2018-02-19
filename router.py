@@ -56,6 +56,8 @@ def oauth():
     try:
         redirect_url = auth.get_authorization_url()
         sess['request_token'] = (auth.request_token)
+        print("debug ---1---")
+        print(sess)
         return redirect(redirect_url)
 
     except tweepy.TweepError:
@@ -69,7 +71,8 @@ def verify():
     verifier = request.args['oauth_verifier']
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-
+    print("debug ---2---")
+    print(sess)
     auth.request_token = {'oauth_token': sess['request_token']['oauth_token'],
                           'oauth_token_secret': sess['request_token']['oauth_token_secret']}
 
