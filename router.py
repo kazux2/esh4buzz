@@ -119,7 +119,9 @@ def result():
 
 
         timer.start()
-
+        print("At router /request")
+        print(type(session))
+        print(session)
         from twi_search import TwiSearch
         twi = TwiSearch(session)
         search_result = twi.make_search_result(search_word_dict)
