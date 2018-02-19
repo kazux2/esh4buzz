@@ -1,7 +1,7 @@
 # coding: UTF-8
 
 import logging
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, url_for, session
 import tweepy
 from settings import SETTING
 from timer import Timer
@@ -55,9 +55,10 @@ def oauth():
 
     try:
         redirect_url = auth.get_authorization_url()
-        sess['request_token'] = (auth.request_token)
+        # sess['request_token'] = (auth.request_token)
+        session['request_token'] = (auth.request_token)
         print("debug ---1---")
-        print(sess)
+        print(session)
         return redirect(redirect_url)
 
     except tweepy.TweepError:
@@ -72,9 +73,9 @@ def verify():
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
     print("debug ---2---")
-    print(sess)
-    auth.request_token = {'oauth_token': sess['request_token']['oauth_token'],
-                          'oauth_token_secret': sess['request_token']['oauth_token_secret']}
+    print(session)
+    auth.request_token = {'oauth_token': session['request_token']['oauth_token'],
+                          'oauth_token_secret': session['request_token']['oauth_token_secret']}
 
     try:
         auth.get_access_token(verifier)
@@ -83,9 +84,9 @@ def verify():
 
     api = tweepy.API(auth)
 
-    sess['api'] = api
-    sess['access_token_key'] = auth.access_token
-    sess['access_token_secret'] = auth.access_token_secret
+    session['api'] = api
+    session['access_token_key'] = auth.access_token
+    session['access_token_secret'] = auth.access_token_secret
 
     return redirect(url_for('search'))
 
@@ -120,7 +121,7 @@ def result():
         timer.start()
 
         from twi_search import TwiSearch
-        twi = TwiSearch(sess)
+        twi = TwiSearch(session)
         search_result = twi.make_search_result(search_word_dict)
 
         print("----- TwiSearch        ----- Duration  : {}".format(timer.stop()))
