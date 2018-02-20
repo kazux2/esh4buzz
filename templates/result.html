@@ -12,7 +12,7 @@
 
     <ul>
         {% for key, value in tweet_list_json.items() if key %}
-            <h3>検索ワード{{ key }}: {{ search_word_json[key]['0'] }}</h3>
+            <h3>検索ワード{{ key }}: {{ search_word_json[key][0] }}</h3>
             {% for keyy, valuee in value.items() if valuee %}
                 <p>{{ key }} - {{ keyy }}</p>
                 <div class = "tweet-box">
