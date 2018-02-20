@@ -24,9 +24,6 @@ class TwiSearch(object):
     twi = Twitter()
 
     def __init__(self, sess):
-        print("At TwiSearch init")
-        print(type(sess))
-        print(sess)
 
         # self.session = sess
         oauth_token = sess['access_token_key']
