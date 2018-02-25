@@ -68,20 +68,25 @@ class TextSegmentation(object):
 
         r_dict_popped = {}
         count = 0
-
-        ud_rate = float(ud_rate)
+        print(ud_rate)
+        print(random())
+        print(ud_rate<random())
 
         for i in range(len(r_dict)):
             r_dict_popped.setdefault(count, [])
+
             for item in r_dict[i]:
                 if ud_rate > random():
-                    r_dict_popped[i].append(item)
+                    r_dict_popped[i].append("{}".format(item)) # routerからだとなぜか最後のループでdictの要素がlistで無くなる
+                    print("----did append")
                 else:
+                    print("not append----")
                     continue
             count += 1
 
-
         return r_dict_popped
+
+
 
     def join_dict_elements(self, r_dict, minimum_elements = 3):
 
