@@ -103,8 +103,10 @@ def search():
 @app.route("/result", methods=['post'])
 def result():
     if request.method == 'POST':
-
+        print(request.values)
         query = request.form["target_text"]
+        ud_rate = request.form["ud_rate"]
+        print(ud_rate)
 
         txt_seg = TextSegmentation()
         r_dict           = txt_seg.segment_text(query, 99)       # query, limit
