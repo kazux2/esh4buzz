@@ -9,10 +9,23 @@
 <body>
 
     <h1>Searched Tweets</h1>
+    <h2>ユーザー定義パラメーター</h2>
+        <p>検索の厳しさ :{{ ud_rate }}</p>
+    <h2>検索ワードと検索件数</h2>
+        {% for key, value in search_word_json.items() %}
+            {% if tweet_list_json[key] %}
+                <p><b>検索ワード {{ key }} :検索結果 {{ tweet_list_json[key]|length }} 件<br>
+                「{{ search_word_json[key][0] }}」</b></p>
+            {% else %}
+                <p>検索ワード {{ key }} :検索結果 0 件<br>
+                「{{ search_word_json[key][0] }}」</p>
+            {% endif %}
+        {% endfor %}
 
+    <h2>検索結果</h2>
     <ul>
         {% for key, value in tweet_list_json.items() if key %}
-            <h3>検索ワード{{ key }}: {{ search_word_json[key][0] }}</h3>
+            <h3>検索ワード{{ key }} ({{ tweet_list_json[key]|length }}件): {{ search_word_json[key][0] }}</h3>
             {% for keyy, valuee in value.items() if valuee %}
                 <p>{{ key }} - {{ keyy }}</p>
                 <div class = "tweet-box">

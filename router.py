@@ -110,7 +110,7 @@ def result():
         query  = mojimoji.zen_to_han(query, kana=False)
 
         txt_seg = TextSegmentation()
-        r_dict           = txt_seg.segment_text(query, 99)       # query, limit
+        r_dict           = txt_seg.segment_text(query, 20)       # query, limit
         r_dict_popped    = txt_seg.pop_search_words(ud_rate, r_dict)
         r_dict_joined    = txt_seg.join_dict_elements(r_dict_popped, 3) # minimum elements
         search_word_dict = txt_seg.reindex_r_dict(r_dict_joined)
@@ -129,8 +129,9 @@ def result():
         # model = Model()
         # model.save_result_tweet('json_data/result_tweet_json8.json', tweet_list_json)
         # tweet_list_json = model.load_search_result('json_data/result_tweet_json8.json')
-
-        return render_template("result.html", tweet_list_json=tweet_list_json, search_word_json=search_word_json)
+        print(search_word_json)
+        print(tweet_list_json)
+        return render_template("result.html", ud_rate = ud_rate, tweet_list_json=tweet_list_json, search_word_json=search_word_json)
 
 
 
