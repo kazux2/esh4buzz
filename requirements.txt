@@ -10,3 +10,4 @@ twitter==1.18.0
 tweepy==3.5.0
 unicodecsv==0.14.1
 uWSGI==2.0.15
+mojimoji==0.0.6
