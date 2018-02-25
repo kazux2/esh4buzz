@@ -68,9 +68,6 @@ class TextSegmentation(object):
 
         r_dict_popped = {}
         count = 0
-        print(ud_rate)
-        print(random())
-        print(ud_rate<random())
 
         for i in range(len(r_dict)):
             r_dict_popped.setdefault(count, [])
