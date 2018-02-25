@@ -46,8 +46,7 @@ class TextSegmentation(object):
 
                 r_dict[count].append("{}".format(node.surface))
 
-            elif (node.feature.split(",")[0] == "記号" and node.feature.split(",")[1] == "句点") \
-                or (node.feature.split(",")[0] == "記号" and node.feature.split(",")[1] == "読点"):
+            elif (node.feature.split(",")[0] == "記号" and node.feature.split(",")[1] == "句点"):
 
                 try:
                     r_dict[count] = r_dict[count]
