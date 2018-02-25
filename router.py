@@ -9,6 +9,7 @@ from session_namager import SessionManager
 from text_segmentation import TextSegmentation
 from twi_search import TwiSearch
 from json_formatter import JsonFormatter
+import mojimoji
 
 
 
@@ -103,15 +104,16 @@ def search():
 @app.route("/result", methods=['post'])
 def result():
     if request.method == 'POST':
-        print(request.values)
+
         query = request.form["target_text"]
         ud_rate = request.form["ud_rate"]
-        print(ud_rate)
+        query  = mojimoji.zen_to_han(query, kana=False)
 
         txt_seg = TextSegmentation()
         r_dict           = txt_seg.segment_text(query, 99)       # query, limit
-        r_dict           = txt_seg.join_dict_elements(r_dict, 3) # minimum elements
-        search_word_dict = txt_seg.reindex_r_dict(r_dict)
+        r_dict_popped    = txt_seg.pop_search_words(ud_rate, r_dict)
+        r_dict_joined    = txt_seg.join_dict_elements(r_dict_popped, 3) # minimum elements
+        search_word_dict = txt_seg.reindex_r_dict(r_dict_joined)
 
         twi = TwiSearch(session)
         search_result = twi.make_search_result(search_word_dict)
