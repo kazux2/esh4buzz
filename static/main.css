@@ -44,7 +44,7 @@ h3{
 /*OAuthボタン*/
 input#oauth {
     padding: 10px 30px;
-    margin: 10px;
+    margin-top: 10px;
     font-size: 1.1em;
     background-color: #3F51B5;
     color: #FFFFFF;
@@ -79,6 +79,15 @@ input#oauth {
    margin-top: -0.8em;
    font-size: 0.9em;
 
+}
+
+.sns-logos {
+    margin-right: 20px;
+    text-align:center
+}
+.sns-logo-li li {
+    display: inline-block;  /* インラインブロック化 */
+    vertical-align: middle; /* 中央を揃える */
 }
 
 
