@@ -21,16 +21,7 @@ font-family: 'Arial',YuGothic,'Yu Gothic','ヒラギノ角ゴ ProN W3','Hiragino
 
 }
 
-@media screen and ( max-width:479px )
-{html, body {
-    height: 100%;
-    width:95%;
-    margin: 5px;
-    padding: 5px;
-    margin-right: auto;
-    margin-left : auto;
-    font-family: 'Arial',YuGothic,'Yu Gothic','ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ', Meiryo,'ＭＳ ゴシック',sans-serif;
-}}
+
 
 /**/
 /**/
@@ -168,4 +159,27 @@ input#search {
     font-size: 0.80em;
 }
 
+
+@media screen and ( max-width:479px )
+{
+html, body {
+    height: 100%;
+    width:95%;
+    margin: 5px;
+    padding: 5px;
+    margin-right: auto;
+    margin-left : auto;
+    font-family: 'Arial',YuGothic,'Yu Gothic','ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ', Meiryo,'ＭＳ ゴシック',sans-serif;
+}
+
+.sns-logos {
+    margin-right: 20px;
+    text-align:center
+}
+.sns-logo-li li {
+    display: inline-block;  /* インラインブロック化 */
+    vertical-align: middle; /* 中央を揃える */
+}
+
+}
 
